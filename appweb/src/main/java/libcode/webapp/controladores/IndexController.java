@@ -1,32 +1,34 @@
+package libcode.webapp.controladores;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import libcode.webapp.entidades.Alumno;
-import libcode.webapp.entidades.Materia;
+import libcode.webapp.entidades.Materia; 
 import libcode.webapp.negocio.DataService;
 
 @Named
 @RequestScoped
 public class IndexController {
 
-    private static final Logger LOGGER = Logger.getLogger(IndexController.class.getName());
-
     private List<Alumno> alumnoList = new ArrayList<>();
-    private List<Materia> materiaList = new ArrayList<>();
+    private List<Materia> materiaList = new ArrayList<>(); // Lista de Materias
     private Alumno alumno = new Alumno();
-    private Materia materia = new Materia();
+    private Materia materia = new Materia(); // Instancia de Materia
 
     @EJB
     private DataService servicio;
 
+    @EJB
+    private DataService servicioMateria; // Servicio para Materia
+
     @PostConstruct
     public void cargarDatos() {
         cargarAlumnos();
-        cargarMaterias();
+        cargarMaterias(); // Cargar también las materias al iniciar
     }
 
     public void cargarAlumnos() {
@@ -34,12 +36,11 @@ public class IndexController {
     }
 
     public void cargarMaterias() {
-        materiaList = servicio.getMaterias();
+        materiaList = servicioMateria.getMaterias();
     }
 
     public void guardarAlumno() {
-        LOGGER.info("Método guardarAlumno llamado");
-        if (alumno.getId() != null) {
+        if(alumno.getId()!=null){
             servicio.editAlumno(alumno);
         } else {
             servicio.saveAlumno(alumno);
@@ -48,14 +49,40 @@ public class IndexController {
         cargarAlumnos();
     }
 
-    public void llenarFormEditar(Alumno alumno) {
-        this.alumno = alumno;
+    public void guardarMateria() {
+        if(materia.getId() != null) {
+            servicioMateria.editMateria(materia);
+        } else {
+            servicioMateria.saveMateria(materia);
+        }
+        materia = new Materia();
+        cargarMaterias();
     }
 
-    public void eliminarAlumno(Alumno alumno) {
+    public void llenarFormEditar(Alumno alumno) {
+        this.alumno.setId(alumno.getId());
+        this.alumno.setNombre(alumno.getNombre());
+        this.alumno.setCarnet(alumno.getCarnet());
+    }
+
+    public void llenarFormEditarMateria(Materia materia) {
+        this.materia.setId(materia.getId());
+        this.materia.setNombre(materia.getNombre());
+        this.materia.setDescripcion(materia.getDescripcion());
+        this.materia.setCodigoMateria(materia.getCodigoMateria());
+    }
+
+    public void eliminarAlumno(Alumno alumno){
         servicio.deleteAlumno(alumno);
         cargarAlumnos();
     }
+
+    public void eliminarMateria(Materia materia){
+        servicioMateria.deleteMateria(materia);
+        cargarMaterias();
+    }
+
+    // Getters y Setters
 
     public List<Alumno> getAlumnoList() {
         return alumnoList;
