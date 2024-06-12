@@ -1,17 +1,12 @@
 package libcode.webapp.converter;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
-import jakarta.inject.Named;
 import libcode.webapp.entidades.Alumno;
 
 
-
-@Named
-@ApplicationScoped
 @FacesConverter("alumnoConverter")
 public class AlumnoConverter implements Converter {
 
@@ -24,15 +19,26 @@ public class AlumnoConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        // Implementación del método getAsObject...
+        if (value != null && !value.isEmpty()) {
+            // Intenta convertir el ID del alumno a un objeto Alumno
+            try {
+                Integer id = Integer.valueOf(value);
+                return alumnoService.buscarAlumnoPorId(id); // Implementa este método en tu servicio de alumno
+            } catch (NumberFormatException e) {
+                // Manejo de excepciones si el valor no es un número
+                // Puedes lanzar un FacesMessage para notificar al usuario sobre el error si lo deseas
+            }
+        }
         return null;
-        // Implementación del método getAsObject...
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        // Implementación del método getAsString...
+        if (value instanceof Alumno) {
+            // Convierte el objeto Alumno a su ID como String
+            Alumno alumno = (Alumno) value;
+            return String.valueOf(alumno.getId());
+        }
         return null;
-        // Implementación del método getAsString...
     }
 }
