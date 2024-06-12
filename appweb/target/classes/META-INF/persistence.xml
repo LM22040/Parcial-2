@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+    <persistence-unit name="pu" transaction-type="JTA">
+        <jta-data-source>jdbc/PostgresDS</jta-data-source>
+        <class>libcode.webapp.entidades.Alumno</class>
+        <properties>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://alert-yeti-14458.7tt.aws-us-east-1.cockroachlabs.cloud:26257/postgresDB"/>
+            <property name="jakarta.persistence.jdbc.user" value="miguel"/>
+            <property name="jakarta.persistence.jdbc.password" value="iaLjia7XIX05WoCwtRDojQ"/>
+        </properties>
+    </persistence-unit>
+</persistence>

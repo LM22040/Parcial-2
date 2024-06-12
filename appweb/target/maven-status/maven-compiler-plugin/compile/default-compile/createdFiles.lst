@@ -1,0 +1,10 @@
+libcode\webapp\entidades\Alumno.class
+libcode\webapp\converter\AlumnoConverter.class
+libcode\webapp\negocio\DataService.class
+libcode\webapp\resources\App.class
+IndexController.class
+libcode\webapp\entidades\Inscripcion.class
+libcode\webapp\converter\AlumnoService.class
+libcode\webapp\entidades\Materia.class
+libcode\webapp\converter\MateriaConverter.class
+libcode\webapp\resources\Recurso.class
